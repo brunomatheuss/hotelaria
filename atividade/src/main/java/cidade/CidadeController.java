@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import estado.*;
 
 @RestController
 public class CidadeController {
@@ -34,12 +35,11 @@ public class CidadeController {
 		return (List<Cidade>) this.cidadeRespository.findAll();
 	}
 	
-	@PutMapping(value="/cidade")
-	public void alterarCidade(@RequestBody Cidade cidade)
+	@PutMapping(value="/cidade/{id}")
+	public void alterarCidade(@RequestBody Cidade cidade, @PathVariable("id") int id)
 	{
-		// enviar o id
+		cidade.setEstado(this.estadoRespository.findById(id));
 		this.cidadeRespository.save(cidade);
-		
 	}
 
 	@GetMapping(value="/cidade/{id}")

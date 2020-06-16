@@ -1,11 +1,11 @@
-package com;
+package pessoa;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProdutoRepository extends CrudRepository<Produto, Integer> {
+public interface PessoaRepository extends CrudRepository<Pessoa, Integer> {
 	
-	Produto findById(int id);
+	Pessoa findById(int cpf);
 
 }

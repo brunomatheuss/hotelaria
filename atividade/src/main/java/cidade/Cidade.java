@@ -2,21 +2,25 @@ package cidade;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OrderBy;
+
+
+import estado.Estado;
 
 @Entity
 public class Cidade {
 
 	@Id
-	@GeneratedValue
-	@OrderBy
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nome;
 	
 
 	@ManyToOne
+	@JoinColumn(name = "estado_id")
 	private Estado estado;
 	
 	Cidade(){}
