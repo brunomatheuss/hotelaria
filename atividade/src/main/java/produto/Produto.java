@@ -2,6 +2,7 @@ package produto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OrderBy;
 
@@ -9,7 +10,7 @@ import javax.persistence.OrderBy;
 public class Produto {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
 	private int id;
 	private String nome;
