@@ -6,7 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
+
+import pessoa.Pessoa;
+import quarto.Quarto;
 
 @Entity
 public class Reserva {
@@ -20,11 +25,17 @@ public class Reserva {
 	private double valorFinal;
 	private int statusPagameno;
 	
+	@ManyToOne
+	@JoinColumn(name = "quarto_id")
+	private Quarto quarto;
+	
+	@ManyToOne
+	@JoinColumn(name = "pessoa_id")
+	private Pessoa pessoa;
 	
 	public Reserva() {}
 	
 	public Reserva(int id, Date dataEntrada, Date dataSaida, double valorFinal, int statusPagameno) {
-		super();
 		this.id = id;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
@@ -71,7 +82,23 @@ public class Reserva {
 	public void setStatusPagameno(int statusPagameno) {
 		this.statusPagameno = statusPagameno;
 	}
-	
+
+	public Quarto getQuarto() {
+		return quarto;
+	}
+
+	public void setQuarto(Quarto quarto) {
+		this.quarto = quarto;
+		this.quarto.setDisponivel(1);
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
 	
 	
 	

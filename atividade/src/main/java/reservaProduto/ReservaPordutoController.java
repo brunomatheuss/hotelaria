@@ -11,16 +11,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import produto.ProdutoRepository;
+import reserva.ReservaRepository;
+
 
 @RestController
 public class ReservaPordutoController {
 	
 	@Autowired
 	ReservaProdutoRepository reservaProdutoRespository;
+
+	@Autowired
+	ProdutoRepository produtoRespository;
 	
-	@PostMapping(value="/reserva/produto")
-	public void inserirReservaProduto(@RequestBody ReservaProduto reservaProduto)
+	@Autowired
+	ReservaRepository reservaRespository;
+	
+	@PostMapping(value="/reserva/quarto/{id}/produto/{idp}")
+	public void inserirReservaProduto(@RequestBody ReservaProduto reservaProduto, @PathVariable("id") int id, @PathVariable("idp") int idp)
 	{
+		reservaProduto.setReserva(this.reservaRespository.findById(id));
+		reservaProduto.setProduto(this.produtoRespository.findById(idp));
 		this.reservaProdutoRespository.save(reservaProduto);
 	}
 
@@ -30,9 +41,11 @@ public class ReservaPordutoController {
 		return (List<ReservaProduto>) this.reservaProdutoRespository.findAll();
 	}
 	
-	@PutMapping(value="/reserva/produto")
-	public void alterarPagamento(@RequestBody ReservaProduto reservaProduto)
+	@PutMapping(value="/reserva/quarto/{id}/produto/{idp}")
+	public void alterarPagamento(@RequestBody ReservaProduto reservaProduto, @PathVariable("id") int id, @PathVariable("idp") int idp)
 	{
+		reservaProduto.setReserva(this.reservaRespository.findById(id));
+		reservaProduto.setProduto(this.produtoRespository.findById(idp));
 		this.reservaProdutoRespository.save(reservaProduto);
 		
 	}

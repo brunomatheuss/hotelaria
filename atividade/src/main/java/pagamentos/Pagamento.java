@@ -6,7 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
+
+import reserva.Reserva;
 
 
 @Entity
@@ -21,6 +25,10 @@ public class Pagamento {
 	private int status;
 	private double valor;
 	private Date dataPagamento;
+	
+	@ManyToOne
+	@JoinColumn(name = "reserva_id")
+	private Reserva reserva;
 	
 	Pagamento(){}
 
@@ -79,6 +87,14 @@ public class Pagamento {
 
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
+	}
+
+	public Reserva getReserva() {
+		return reserva;
+	}
+
+	public void setReserva(Reserva reserva) {
+		this.reserva = reserva;
 	}
 
 	

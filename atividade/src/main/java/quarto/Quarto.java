@@ -15,17 +15,18 @@ public class Quarto {
 	private int id;
 	
 	@OrderBy
-	private String nome;
-	private int sexo;
+	private int numero;
+	private int capacidade;
 	private double diaria;
 	private int disponivel;
+
 	
 	Quarto(){}
 
-	public Quarto(int id, String nome, int sexo, double diaria, int disponivel) {
+	public Quarto(int id, int numero, int capacidade, double diaria, int disponivel) {
 		this.id = id;
-		this.nome = nome;
-		this.sexo = sexo;
+		this.numero = numero;
+		this.capacidade = capacidade;
 		this.diaria = diaria;
 		this.disponivel = disponivel;
 	}
@@ -38,20 +39,21 @@ public class Quarto {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+
+	public int getNumero() {
+		return numero;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 
-	public int getSexo() {
-		return sexo;
+	public int getCapacidade() {
+		return capacidade;
 	}
 
-	public void setSexo(int sexo) {
-		this.sexo = sexo;
+	public void setCapacidade(int capacidade) {
+		this.capacidade = capacidade;
 	}
 
 	public double getDiaria() {
@@ -69,5 +71,7 @@ public class Quarto {
 	public void setDisponivel(int disponivel) {
 		this.disponivel = disponivel;
 	}
+
+	
 	
 }

@@ -11,15 +11,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import pessoa.PessoaRepository;
+import quarto.QuartoRepository;
+
 @RestController
 public class ReservaController {
 	
 	@Autowired
 	ReservaRepository reservaRespository;
 	
-	@PostMapping(value="/reserva")
-	public void inserirReserva(@RequestBody Reserva reserva)
+	@Autowired
+	QuartoRepository quartoRespository;
+	
+	@Autowired
+	PessoaRepository pessoaRespository;
+	
+	@PostMapping(value="/reserva/quarto/{id}/pessoa/{cpf}")
+	public void inserirReserva(@RequestBody Reserva reserva, @PathVariable("id") int id, @PathVariable("cpf") int cpf)
 	{
+		reserva.setPessoa(this.pessoaRespository.findById(cpf));
+		reserva.setQuarto(this.quartoRespository.findById(id));
 		this.reservaRespository.save(reserva);
 	}
 
@@ -29,9 +40,11 @@ public class ReservaController {
 		return (List<Reserva>) this.reservaRespository.findAll();
 	}
 	
-	@PutMapping(value="/reserva")
-	public void alterarReserva(@RequestBody Reserva reserva)
+	@PutMapping(value="/reserva/quarto/{id}/pessoa/{cpf}")
+	public void alterarReserva(@RequestBody Reserva reserva, @PathVariable("id") int id, @PathVariable("cpf") int cpf)
 	{
+		reserva.setPessoa(this.pessoaRespository.findById(cpf));
+		reserva.setQuarto(this.quartoRespository.findById(id));
 		this.reservaRespository.save(reserva);
 		
 	}

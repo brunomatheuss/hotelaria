@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import reserva.ReservaRepository;
+
 
 @RestController
 public class PagamentoController {
@@ -18,9 +20,13 @@ public class PagamentoController {
 	@Autowired
 	PagamentoRepository pagamentoRespository;
 	
-	@PostMapping(value="/pagamento")
-	public void inserirPagamento(@RequestBody Pagamento pagamento)
+	@Autowired
+	ReservaRepository reservaRepository;
+	
+	@PostMapping(value="/pagamento/reserva/{id}")
+	public void inserirPagamento(@RequestBody Pagamento pagamento, @PathVariable("id") int id)
 	{
+		pagamento.setReserva(this.reservaRepository.findById(id));
 		this.pagamentoRespository.save(pagamento);
 	}
 
@@ -31,8 +37,9 @@ public class PagamentoController {
 	}
 	
 	@PutMapping(value="/pagamento")
-	public void alterarPagamento(@RequestBody Pagamento pagamento)
+	public void alterarPagamento(@RequestBody Pagamento pagamento, @PathVariable("id") int id)
 	{
+		pagamento.setReserva(this.reservaRepository.findById(id));
 		this.pagamentoRespository.save(pagamento);
 		
 	}
