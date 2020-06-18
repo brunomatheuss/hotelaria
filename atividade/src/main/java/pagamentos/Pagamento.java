@@ -24,7 +24,7 @@ public class Pagamento {
 	private int parcela;
 	private int status;
 	private double valor;
-	private Date dataPagamento;
+	private String dataPagamento;
 	
 	@ManyToOne
 	@JoinColumn(name = "reserva_id")
@@ -32,7 +32,7 @@ public class Pagamento {
 	
 	Pagamento(){}
 
-	public Pagamento(int id, int numParcelas, int parcela, int status, double valor, Date dataPagamento) {
+	public Pagamento(int id, int numParcelas, int parcela, int status, double valor, String dataPagamento) {
 		this.id = id;
 		this.numParcelas = numParcelas;
 		this.parcela = parcela;
@@ -81,11 +81,11 @@ public class Pagamento {
 		this.valor = valor;
 	}
 
-	public Date getDataPagamento() {
+	public String getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(Date dataPagamento) {
+	public void setDataPagamento(String dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 

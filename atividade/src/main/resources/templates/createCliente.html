@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="hotel-web">
+<html lang="en" ng-app="cliente-web">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper" ng-controller="hotel-controller">
+<div class="wrapper" ng-controller="cliente-controller">
   <!-- Main Sidebar Container -->
   <nav class="main-header navbar navbar-expand navbar-light">
     <ul class="navbar-nav">
@@ -99,92 +99,58 @@
     <div class="content-header">
       <section class="content">
         <div class="container-fluid">
+        <h4>Dados pessoais:</h4>
+        <hr>
+        <h5>Nome:</h5>
+        <input type="text" class="form-control"placeholder="Nome" ng-model="nome">
+        <h5>CPF:</h5>
+        <input type="text" class="form-control"placeholder="CPF" ng-model="cpf">
+        <h5>Sexo:</h5>
+        <select class="form-control" ng-model="sexo">
+        	<option value="" disabled="disabled">Selecione o sexo</option>
+        	<option>Masculino</option>	
+        	<option>Feminino</option>	
+        </select>
+        <h5>Data de Nascimento:</h5>
+        <input type="text" class="form-control"placeholder="Data de Nascimento" ng-model="nascimento">
+        <h5>Telefone:</h5>
+        <input type="text" class="form-control"placeholder="Telefone" ng-model="telefone">
+        <hr>
+        <h4>Endereço:</h4>
+        <hr>
+        <h5>Logradouro:</h5>
+        <input type="text" class="form-control"placeholder="Logradouro" ng-model="logradouro">
+        <h5>CEP:</h5>
+        <input type="text" class="form-control"placeholder="CEP" ng-model="cep">
+        <h5>Numero:</h5>
+        <input type="text" class="form-control"placeholder="Numero" ng-model="numero">
+        <h5>Estado:</h5>
+        
+        <select class="form-control" ng-click="getCidades(estado.id)" ng-model="estado" ng-options="item.nome for item in listEstados">
+        	<option value="" disabled="disabled">Selecione um estado</option>	
+        </select>
+        
+        <h5>Cidade:</h5>
+        <select class="form-control"  ng-model="cidade" ng-options="item.nome for item in listCidades">
+        	<option value="" disabled="disabled">Selecione uma cidade</option>	
+        </select>
+        <br>
+        
+        
         <div class="row">
-        	<div class="col-2">
-		        <button type="button" class="btn btn-block btn-outline-success" ng-click="getQuartosDisponiveis()">Quartos disponiveis</button>
+        	<div class="col-1">
+		        <button type="button" class="btn btn-block btn-outline-primary" ng-click="setEstado()">Cadastrar</button>
         	</div>
-        	<div class="col-2">
-		        <button type="button" class="btn btn-block btn-outline-danger" ng-click="getQuartosReservados()">Quartos reservados</button>
+        	<div class="col-1">
+		        <button type="button" class="btn btn-block btn-outline-danger" ng-click="setHome()">Cancelar</button>
         	</div>
         </div>
-        <hr>
-        
-          <div class="row">
-            <div class="col-md-3 col-sm-6 col-12" ng-repeat="quarto in listQuartos" ng-if="quarto.disponivel == 0">
-              <div class="card bg-gradient-success">
-                <div class="card-header">
-                  <h5><i class="fas fa-bed"></i> Quarto {{ quarto.numero }}</h5>
-                </div>
-                <div class="card-body bg-white">
-                  <i class="fas fa-users"></i>
-                  <label>Capacidade:</label><span class="info-box-text"> {{ quarto.capacidade }}</span><br>
-                  <i class="fas fa-money-bill-alt"></i>
-                  <label>Valor Diária:</label><span class="info-box-text"> R$ {{ quarto.diaria }}</span><br>
-                  <br>
-                  <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-block btn-outline-info col-md-6" data-toggle="modal" data-target="#ModalReservar" ng-click="getDadosReserva(quarto)"><strong>Reservar</strong></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-3 col-sm-6 col-12" ng-repeat="quarto in listQuartos" ng-if="quarto.disponivel == 1">
-              <div class="card bg-gradient-danger">
-                <div class="card-header">
-                  <h5><i class="fas fa-bed"></i> Quarto {{ quarto.numero }}</h5>
-                </div>
-                <div class="card-body bg-white">
-                  <i class="fas fa-users"></i>
-                  <label>Capacidade:</label><span class="info-box-text"> {{ quarto.capacidade }}</span><br>
-                  <i class="fas fa-money-bill-alt"></i>
-                  <label>Valor Diária:</label><span class="info-box-text"> R$ {{ quarto.diaria }}</span><br>
-                  <br>
-                  <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-block btn-outline-info col-md-6"><strong>Ver reservar</strong></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-
-            <div class="clearfix hidden-md-up"></div>
-          </div>
+        <br>
+       
         </div>
       </section>
     </div>
   </div>
-  
-  <!-- Modal -->
-  	<div class="modal fade" id="ModalReservar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">Reservar</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		      	<div class="form-group">
-		      		<label>Quarto: {{ quarto.numero }}</label>
-		      		<br>
-		            <label>Pessoa: </label>
-		            <select class="form-control" ng-model="pessoa" ng-options="pessoa.nome for pessoa in listPessoas">
-			        	<option value="" disabled="disabled">Selecione a pessoa</option>	
-			        </select>
-			        <label>Data de entrada</label><small> (DD/MM/AAAA):</small>
-			        <input type="text" class="form-control"placeholder="Data de entrada" ng-model="dataEntrada">
-		            
-		        </div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-		        <button ng-click="reservar(quarto, pessoa)" class="btn btn-primary" data-dismiss="modal">Reservar</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-  
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
@@ -215,7 +181,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Versão</b> 1.0.0
     </div>
-    <strong>Copyright © Sistema desenvolvido por <a href="#">Hotelaria HBM</a></strong>
+    <strong>Copyright © Sistema desenvolvido por <a href="https://instagram.com/marcelo_sm2">Marcelo Vitor</a> e <a href="https://instagram.com/bruno_matheuss">Bruno Matheus</a></strong>
   </footer>
 </div>
 </body>

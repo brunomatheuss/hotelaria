@@ -57,6 +57,6 @@ public class EstadoController {
 	@GetMapping(value="/estado/{id}/cidades")
 	public List<Cidade> pegarCidades(@PathVariable("id") int id)
 	{
-		return (List<Cidade>) this.estadoRespository.findById(id).getCidades();
+		return this.cidadeRespository.findByEstadoId(id);
 	}
 }

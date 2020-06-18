@@ -20,7 +20,7 @@ public class Pessoa {
 	@OrderBy
 	private String nome;
 	private String sexo;
-	private Date nascimento;
+	private String nascimento;
 	private String telefone;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -28,7 +28,7 @@ public class Pessoa {
 	
 	Pessoa(){}
 	
-	Pessoa(int cpf, String nome, String sexo, Date nascimento, String telefone) {
+	Pessoa(int cpf, String nome, String sexo, String nascimento, String telefone) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.sexo = sexo;
@@ -54,10 +54,10 @@ public class Pessoa {
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
-	public Date getNascimento() {
+	public String getNascimento() {
 		return nascimento;
 	}
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(String nascimento) {
 		this.nascimento = nascimento;
 	}
 	public String getTelefone() {

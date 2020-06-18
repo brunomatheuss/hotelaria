@@ -1,6 +1,5 @@
 package reserva;
 
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,8 +19,8 @@ public class Reserva {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
 	private int id;
-	private Date dataEntrada;
-	private Date dataSaida;
+	private String dataEntrada;
+	private String dataSaida;
 	private double valorFinal;
 	private int statusPagameno;
 	
@@ -35,7 +34,7 @@ public class Reserva {
 	
 	public Reserva() {}
 	
-	public Reserva(int id, Date dataEntrada, Date dataSaida, double valorFinal, int statusPagameno) {
+	public Reserva(int id, String dataEntrada, String dataSaida, double valorFinal, int statusPagameno) {
 		this.id = id;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
@@ -51,19 +50,19 @@ public class Reserva {
 		this.id = id;
 	}
 
-	public Date getDataEntrada() {
+	public String getDataEntrada() {
 		return dataEntrada;
 	}
 
-	public void setDataEntrada(Date dataEntrada) {
+	public void setDataEntrada(String dataEntrada) {
 		this.dataEntrada = dataEntrada;
 	}
 
-	public Date getDataSaida() {
+	public String getDataSaida() {
 		return dataSaida;
 	}
 
-	public void setDataSaida(Date dataSaida) {
+	public void setDataSaida(String dataSaida) {
 		this.dataSaida = dataSaida;
 	}
 

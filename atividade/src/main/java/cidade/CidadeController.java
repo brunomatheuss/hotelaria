@@ -2,6 +2,8 @@ package cidade;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ public class CidadeController {
 	@Autowired
 	EstadoRepository estadoRespository;
 	
+	@Transactional
 	@PostMapping(value="/cidade/{id}")
 	public void inserirCidade(@RequestBody Cidade cidade, @PathVariable("id") int id)
 	{

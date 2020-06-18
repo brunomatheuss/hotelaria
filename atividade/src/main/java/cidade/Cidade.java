@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OrderBy;
 
 import estado.Estado;
 
@@ -14,7 +14,7 @@ import estado.Estado;
 public class Cidade {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@OrderBy
 	private int id;
 	private String nome;
 	
@@ -51,7 +51,7 @@ public class Cidade {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
-		this.estado.getCidades().add(this);
+//		this.estado.getCidades().add(this);
 	}
 
 	

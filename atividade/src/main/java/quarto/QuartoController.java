@@ -11,12 +11,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import reserva.Reserva;
+import reserva.ReservaRepository;
+
 
 @RestController
 public class QuartoController {
 	
 	@Autowired
 	QuartoRepository quartoRespository;
+	
+	@Autowired
+	ReservaRepository reservaRepository;
 	
 	@PostMapping(value="/quarto")
 	public void inserirQuarto(@RequestBody Quarto quarto)
@@ -48,4 +54,10 @@ public class QuartoController {
 	{
 		this.quartoRespository.deleteById(id);
 	}
+	
+	@GetMapping(value="/quarto/{id}/reserva")
+	public Reserva getReserva(@PathVariable("id") int id) {
+		return this.reservaRepository.findQuartoReservado(id);
+	}
+	
 }
