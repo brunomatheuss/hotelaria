@@ -87,6 +87,14 @@
                 </a>
               </li>
             </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="http://localhost:9090/createProduto" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Produto</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -110,44 +118,50 @@
         <hr>
         
           <div class="row">
-            <div class="col-md-3 col-sm-6 col-12" ng-repeat="quarto in listQuartos" ng-if="quarto.disponivel == 0">
-              <div class="card bg-gradient-success">
-                <div class="card-header">
-                  <h5><i class="fas fa-bed"></i> Quarto {{ quarto.numero }}</h5>
-                </div>
-                <div class="card-body bg-white">
-                  <i class="fas fa-users"></i>
-                  <label>Capacidade:</label><span class="info-box-text"> {{ quarto.capacidade }}</span><br>
-                  <i class="fas fa-money-bill-alt"></i>
-                  <label>Valor Diária:</label><span class="info-box-text"> R$ {{ quarto.diaria }}</span><br>
-                  <br>
-                  <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-block btn-outline-info col-md-6" data-toggle="modal" data-target="#ModalReservar" ng-click="getDadosReserva(quarto)"><strong>Reservar</strong></button>
-                  </div>
-                </div>
-              </div>
-            </div>
+	            <div class="col-md-3 col-sm-6 col-12" ng-repeat="quarto in listQuartos">
+	              <div class="card bg-gradient-success">
+	                <div class="card-header">
+	                  <h5><i class="fas fa-bed"></i> Quarto {{ quarto.numero }}</h5>
+	                </div>
+	                <div class="card-body bg-white">
+	                  <i class="fas fa-users"></i>
+	                  <label>Capacidade:</label><span class="info-box-text"> {{ quarto.capacidade }}</span><br>
+	                  <i class="fas fa-money-bill-alt"></i>
+	                  <label>Valor Diária:</label><span class="info-box-text"> R$ {{ quarto.diaria }}</span><br>
+	                  <br>
+	                  <div class="d-flex justify-content-center">
+	                    <button type="button" class="btn btn-block btn-outline-info col-md-6" data-toggle="modal" data-target="#ModalReservar" ng-click="getDadosReserva(quarto)"><strong>Reservar</strong></button>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
             
-            <div class="col-md-3 col-sm-6 col-12" ng-repeat="quarto in listQuartos" ng-if="quarto.disponivel == 1">
-              <div class="card bg-gradient-danger">
-                <div class="card-header">
-                  <h5><i class="fas fa-bed"></i> Quarto {{ quarto.numero }}</h5>
-                </div>
-                <div class="card-body bg-white">
-                  <i class="fas fa-users"></i>
-                  <label>Capacidade:</label><span class="info-box-text"> {{ quarto.capacidade }}</span><br>
-                  <i class="fas fa-money-bill-alt"></i>
-                  <label>Valor Diária:</label><span class="info-box-text"> R$ {{ quarto.diaria }}</span><br>
-                  <br>
-                  <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-block btn-outline-info col-md-6"><strong>Ver reservar</strong></button>
-                  </div>
-                </div>
-              </div>
-            </div>
             
-
-            <div class="clearfix hidden-md-up"></div>
+            	<div class="col-md-3 col-sm-6 col-12" ng-repeat="reserva in listReservas">
+		             <div class="card bg-gradient-danger">
+		               <div class="card-header">
+		                 <h5><i class="fas fa-bed"></i> Quarto {{ reserva.quarto.id }}</h5>
+		               </div>
+		               <div class="card-body bg-white">
+		                 <i class="fas fa-tag"></i>
+		                 <label> Reserva Nº:</label><span class="info-box-number"> {{ reserva.id }}</span><br>
+		                 <i class="fas fa-user"></i>
+		                 <label>Nome Hospede:</label><span class="info-box-text"> {{ reserva.pessoa.nome }}</span><br>
+		                 <i class="fas fa-calendar-alt"></i>
+		                 <label>Data Entrada:</label><span class="info-box-text"> {{ reserva.dataEntrada }}</span><br>
+		                 <div class="d-flex justify-content-center">
+		                   <button type="button" class="btn btn-block btn-outline-info col-md-8" data-toggle="modal" data-target="#ModalProdutos" ng-click="getProdutos(reserva)"><strong>Produtos</strong></button>
+		                 </div>
+		                 <br>
+		                 <div class="d-flex justify-content-center">
+		                   <button type="button" class="btn btn-block btn-outline-danger col-md-6" data-toggle="modal" data-target="#ModalDesocupar" ng-click="getProdutos(reserva)"><strong>Desocupar</strong></button>
+		                 </div>
+		               </div>
+		             </div>
+		           </div>
+	            
+	
+	            <div class="clearfix hidden-md-up"></div>
           </div>
         </div>
       </section>
@@ -180,6 +194,107 @@
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 		        <button ng-click="reservar(quarto, pessoa)" class="btn btn-primary" data-dismiss="modal">Reservar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+  	<div class="modal fade" id="ModalProduto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Produto</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group">
+		      		<label>Reserva: {{ reserva.id }}</label>
+		      		<br>
+		            <label>Produto: </label>
+		            <select class="form-control" ng-model="produto" ng-options="produto.nome for produto in listProdutos">
+			        	<option value="" disabled="disabled">Selecione o produto</option>	
+			        </select>
+			        <label>Quantidade:</label>
+			        <input type="text" class="form-control"placeholder="Quantidade" ng-model="quantidadeP">
+			        <label>Data e Hora:</label>
+       				<input type="text" class="form-control"placeholder="Data e Hora" ng-model="datahora">
+		            
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+		        <button ng-click="setReservaProduto(reserva)" class="btn btn-primary" data-dismiss="modal">Adicionar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+  	<div class="modal fade" id="ModalProdutos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Produtos</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group">
+		      		<label>Reserva: {{ reserva.id }}</label> 
+		      		<button class="btn btn-primary float-right" style="margin-bottom: 10px" data-dismiss="modal" data-toggle="modal" data-target="#ModalProduto" ng-click="getProdutos(reserva)">Adicionar</button>
+		      		<br>
+		            <table class="table table-dark table-striped table-hover table-bordered">
+			           <thead>
+			               <tr>
+			                   <th>Nome</th>
+			                   <th>Valor</th>
+			                   <th>Quantidade</th>
+			                   <th>Data/Hora</th>
+			               </tr>
+			           </thead>
+			           <tbody>
+			               <tr ng-repeat="produtoReserva in listProdutosReserva">
+			                   <td>{{ produtoReserva.produto.nome }}</td>
+			                   <td>R$ {{ produtoReserva.produto.valor }}</td>
+			                   <td>{{ produtoReserva.quantidade }}</td>
+			                   <td>{{ produtoReserva.data_hora }}</td>
+			               </tr>
+			           </tbody>
+			       </table>
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+  	<div class="modal fade" id="ModalDesocupar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Desocupar</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group">
+		      		<label>Data de Saida:</label>
+			        <input type="text" class="form-control"placeholder="Data de saida" ng-model="dataSaida">
+			        <label>Quantidade de diarias:</label>
+			        <input type="text" class="form-control"placeholder="Quantidade de diarias" ng-model="qtdDiarias">
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		       <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="desocupar(reserva)">Confirmar</button>
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
 		      </div>
 		    </div>
 		  </div>

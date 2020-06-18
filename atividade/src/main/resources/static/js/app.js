@@ -4,6 +4,14 @@ app.controller("hotel-controller", [ "$http", "$scope", function($http, $scope){
 	
 	$scope.listQuartos = [];
 	
+	$scope.listReservas = [];
+	
+	$scope.listProdutos = [];
+	
+	$scope.listProdutosReserva = [];
+	
+	$scope.setHome = function (){window.location.href = "http://localhost:9090";}
+	
 	$scope.getQuartosDisponiveis = function(){
 		
 		$http({
@@ -12,6 +20,7 @@ app.controller("hotel-controller", [ "$http", "$scope", function($http, $scope){
 		}).then(
 			function success(response){
 				$scope.listQuartos = [];
+				$scope.listReservas = [];
 				dados = response.data;
 				for(dado of dados){
 					if(dado.disponivel == 0){
@@ -29,16 +38,51 @@ app.controller("hotel-controller", [ "$http", "$scope", function($http, $scope){
 		
 		$http({
 			method: "GET",
-			url: "http://localhost:9090/quarto"
+			url: "http://localhost:9090/reserva"
 		}).then(
 			function success(response){
 				$scope.listQuartos = [];
+				$scope.listReservas = [];
 				dados = response.data;
 				for(dado of dados){
-					if(dado.disponivel == 1){
-						$scope.listQuartos.push(dado);
+					if(dado.statusPagameno == 0){
+						$scope.listReservas.push(dado);
 					}
 				}
+			},
+			function unsuccess(response){
+				console.log(response);
+			}
+		)
+	}
+	
+	$scope.getProdutosDaReserva = function(reserva){
+		
+		$http({
+			method: "GET",
+			url: "http://localhost:9090/reserva/produto/"+reserva.id
+		}).then(
+			function success(response){
+				$scope.listProdutosReserva = [];
+				$scope.listProdutosReserva = response.data;
+			},
+			function unsuccess(response){
+				console.log(response);
+			}
+		)
+	}
+	
+	$scope.getProdutos = function(reserva){
+		
+		$http({
+			method: "GET",
+			url: "http://localhost:9090/produto"
+		}).then(
+			function success(response){
+				$scope.listProdutos = [];
+				$scope.listProdutos = response.data;
+				$scope.reserva = reserva;
+				$scope.getProdutosDaReserva(reserva);
 			},
 			function unsuccess(response){
 				console.log(response);
@@ -81,6 +125,73 @@ app.controller("hotel-controller", [ "$http", "$scope", function($http, $scope){
 		)
 	}
     
+	$scope.setReservaProduto = function(reserva){
+		$http({
+			method: "POST",
+			url: "http://localhost:9090/reserva/quarto/"+reserva.id+"/produto/"+$scope.produto.id,
+			data: {quantidade: $scope.quantidade, data_hora: $scope.datahora}
+		}).then(
+			function success(response){
+				alert("Produto adicionado com sucesso!");
+			},
+			function unsuccess(response){
+				console.log(response);
+			}
+		)
+	}
+	
+	$scope.desocupar = function(reserva){
+		
+		 $scope.calcValorDiarias = parseFloat($scope.qtdDiarias) * parseFloat(reserva.quarto.diaria);
+
+		 $scope.calcValorProdutos = 0;
+	
+		 
+		for(produto of $scope.listProdutosReserva){
+			$scope.calcValorProdutos += produto.produto.valor * produto.quantidade;
+		}
+		
+		$scope.calcValorFinal = $scope.calcValorDiarias + $scope.calcValorProdutos;
+		
+		$scope.desocuparQuarto = function(){
+			$http({
+		
+			method: "PUT",
+			url: "http://localhost:9090/quarto",
+			data: {id: reserva.quarto.id, numero: reserva.quarto.numero, capacidade: reserva.quarto.capacidade, diaria: reserva.quarto.diaria, disponivel: 0}
+		}).then(
+			function success(response){
+//				$scope.setHome();
+			},
+			function unsuccess(response){
+				console.log(response);
+			}
+		)
+		}
+		
+		
+		$http({
+			method: "PUT",
+			url: "http://localhost:9090/reserva/quarto/"+reserva.quarto.id+"/pessoa/"+reserva.pessoa.cpf,
+			data: {id: reserva.id, dataEntrada: reserva.dataEntrada, dataSaida: $scope.dataSaida, valorFinal: $scope.calcValorFinal, statusPagameno: 1}
+		}).then(
+			function success(response){
+				alert("Quarto desocupado com sucesso!");
+				console.log($scope.calcValorFinal);
+				alert("Valor final: " + $scope.calcValorFinal);
+				$scope.desocuparQuarto();
+				$scope.getQuartosDisponiveis();
+			},
+			function unsuccess(response){
+				console.log(response);
+			}
+		)
+			
+		
+			
+			
+	}
+	
 }]);
 
 // APP CLIENTE
@@ -211,6 +322,40 @@ appQuarto.controller("quarto-controller", [ "$http", "$scope", function($http, $
 		}).then(
 			function success(response){
 				alert("Quarto cadastrado");
+				$scope.setHome();
+			},
+			function unsuccess(response){
+				console.log(response);
+			}
+		)
+		
+		
+		
+	}
+	
+	
+	
+}]);
+
+//APP PRODUTO
+
+var appProduto= angular.module("produto-web", []);
+
+appProduto.controller("produto-controller", [ "$http", "$scope", function($http, $scope){
+
+	$scope.setHome = function (){
+		window.location.href = "http://localhost:9090";
+	}
+	
+	$scope.setProduto = function(){
+		
+		$http({
+			method: "POST",
+			url: "http://localhost:9090/produto",
+			data: {nome: $scope.nome, valor: $scope.valor}
+		}).then(
+			function success(response){
+				alert("Produto cadastrado");
 				$scope.setHome();
 			},
 			function unsuccess(response){

@@ -55,9 +55,4 @@ public class QuartoController {
 		this.quartoRespository.deleteById(id);
 	}
 	
-	@GetMapping(value="/quarto/{id}/reserva")
-	public Reserva getReserva(@PathVariable("id") int id) {
-		return this.reservaRepository.findQuartoReservado(id);
-	}
-	
 }

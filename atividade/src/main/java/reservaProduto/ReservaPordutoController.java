@@ -51,9 +51,9 @@ public class ReservaPordutoController {
 	}
 
 	@GetMapping(value="/reserva/produto/{id}")
-	public ReservaProduto pegarReservaProduto(@PathVariable("id") int id) 
+	public List<ReservaProduto> pegarReservaProduto(@PathVariable("id") int id) 
 	{
-		return this.reservaProdutoRespository.findById(id);
+		return (List<ReservaProduto>) this.reservaProdutoRespository.findByReservaId(id);
 	}
 	
 	@DeleteMapping(value="/reserva/produto/{id}")

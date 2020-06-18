@@ -17,4 +17,9 @@ public class HomeController {
         return new ModelAndView("createQuarto");
     }
 	
+	@RequestMapping("/createProduto") 
+    public ModelAndView createProduto(){
+        return new ModelAndView("createProduto");
+    }
+	
 }

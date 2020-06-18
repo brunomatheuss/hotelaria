@@ -16,8 +16,9 @@ import reserva.Reserva;
 public class ReservaProduto {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@OrderBy
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	private int quantidade;
 	private String data_hora;
 	
@@ -67,6 +68,14 @@ public class ReservaProduto {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	
