@@ -129,7 +129,7 @@ app.controller("hotel-controller", [ "$http", "$scope", function($http, $scope){
 		$http({
 			method: "POST",
 			url: "http://localhost:9090/reserva/quarto/"+reserva.id+"/produto/"+$scope.produto.id,
-			data: {quantidade: $scope.quantidade, data_hora: $scope.datahora}
+			data: {quantidade: $scope.quantidadeP, data_hora: $scope.datahora}
 		}).then(
 			function success(response){
 				alert("Produto adicionado com sucesso!");
